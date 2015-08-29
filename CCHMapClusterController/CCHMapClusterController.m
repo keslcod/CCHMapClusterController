@@ -281,14 +281,17 @@
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
     self.regionChanging = NO;
-    
+
+    // When only panning around, don't change clusters
+    BOOL hasZoomed = !fequal(mapView.region.span.longitudeDelta, self.regionSpanBeforeChange.longitudeDelta);
+    if (!hasZoomed) {
+        return;
+    }
+
     // Deselect all annotations when zooming in/out. Longitude delta will not change
     // unless zoom changes (in contrast to latitude delta).
-    BOOL hasZoomed = !fequal(mapView.region.span.longitudeDelta, self.regionSpanBeforeChange.longitudeDelta);
-    if (hasZoomed) {
-        [self deselectAllAnnotations];
-    }
-    
+    [self deselectAllAnnotations];
+
     // Update annotations
     [self updateAnnotationsWithCompletionHandler:^{
         if (self.annotationToSelect) {
