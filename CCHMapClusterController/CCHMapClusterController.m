@@ -285,7 +285,7 @@
     self.regionChanging = NO;
 
     // When only panning around, don't change clusters
-    BOOL hasZoomed = mapView.camera.altitude != mapView.camera.altitude;
+    BOOL hasZoomed = mapView.camera.altitude != self.altitudeBeforeRegionChange;
     if (!hasZoomed) {
         return;
     }
