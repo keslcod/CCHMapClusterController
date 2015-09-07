@@ -285,7 +285,7 @@
     self.regionChanging = NO;
 
     // When only panning around, don't change clusters
-    BOOL hasZoomed = !fequal(mapView.camera.altitude, self.altitudeBeforeRegionChange);
+    BOOL hasZoomed = round(mapView.camera.altitude) != round(self.altitudeBeforeRegionChange);
     if (!hasZoomed && !self.annotationToSelect) {
         return;
     }
